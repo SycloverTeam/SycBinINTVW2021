@@ -28,7 +28,7 @@ SYC{PHQGlZhgsHfoFUWHUfExCUtJKxYeWJcuZvMwkrIENjSCAEwdyyRpHodDYa}
 
 开始前先贴一张我分析的笔记~~（ 鞭尸我自己，过程不是这样分析的 ）~~
 
-![](https://static01.imgkr.com/temp/b2625fe57cef4d75916c9fb39ecaed87.jpg)
+![image-20211116213323876](pic/image-20211116213323876.png)
 
 最开始拿到题目的时候天真的我还没有考虑到事情的严重性，还想手动 Battle 一下双重循环的一个异或，还傻乎乎的以为在动调下发现了什么大秘密，结果我错了~~（ 数据变化太怪了 ）~~
 
@@ -54,11 +54,11 @@ SYC{PHQGlZhgsHfoFUWHUfExCUtJKxYeWJcuZvMwkrIENjSCAEwdyyRpHodDYa}
 
 在解题过程中我们将 level 1 拖入 IDA 中可以看到如下的代码：
 
-![](https://static01.imgkr.com/temp/793ac55937564de0a1d0a63bc64af346.png)
+![image-20211116213338393](pic/image-20211116213338393.png)
 
 我们简易分析其组成，可以了解到输入的数据长度为 63 ，在两个 for 的加持（循环）下得到加密的后的 `s[i]`，并在最后和`compare_data[k]`进行比较，那么我们的突破口便是对这个`compare_data[k]`进行反推其输入（`s[i]`），因为异或逆运算还是异或，我们举个例子：`A^B=C` 那么 C 便是我们这个题目中异或后的结果，我们将 C 异或回去，`C ^ B = ? ` 这个问号是不是就是我们的 A 。由此我们进入汇编层，提取对应`compare_data[k]`的数据：
 
-![](https://static01.imgkr.com/temp/95b839a09e6e4fbd91064b279c0f01d8.png)
+![image-20211116213410429](pic/image-20211116213410429.png)
 
 之后我们便可以开始编写脚本了。
 
